@@ -1,5 +1,18 @@
 Last populated value backwards
 
+
+see imporved solution by on end
+Keintz, Mark
+mkeintz@wharton.upenn.edu
+
+
+You have a better understanding of the interaction of 'set'
+statements and the PDV then me..
+
+
+
+
+
   Three solutions  (assumes last value in group is populated)
 
        1. Datastep set point backwards
@@ -210,6 +223,33 @@ run;quit;
 01NOV2013     2    0.31    0.31    0.31
 01DEC2013     2    0.79    0.79    0.79
 
+*__  __ _ _        
+|  \/  (_) | _____ 
+| |\/| | | |/ / _ \
+| |  | | |   <  __/
+|_|  |_|_|_|\_\___|
+                   
+;
+
+
+
+data want (drop=chkdt);
+  set have (where=(newx^=.) rename=(x=newx month_begin_dt=chkdt));
+  do until(month_begin_dt=chkdt);
+    set have;
+    output;
+  end;
+  put _all_;
+run;
+
+* NICE;
+
+
+1.  Read a record from have with only non-missing x;
+    Hold that non-missing vale;
+2   Loop though the full have and output the saved non_missing  X until you reach
+    that non missing x
+3.  Go back and save the next non_missing x  and repeat
 
 
 
